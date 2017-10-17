@@ -3,10 +3,13 @@
 
 require __DIR__.'/vendor/autoload.php';
 
+use DailyReporter\Command\GenerateCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 
 // ... register commands
+
+$application->add(new GenerateCommand());
 
 $application->run();
