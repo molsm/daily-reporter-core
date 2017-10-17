@@ -9,6 +9,8 @@
             "email": "maris9229@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/console": "^3.3"
+    }
 }
