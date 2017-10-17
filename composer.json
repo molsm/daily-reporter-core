@@ -12,5 +12,10 @@
     "minimum-stability": "stable",
     "require": {
         "symfony/console": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "DailyReporter\\": "app"
+        }
     }
 }
