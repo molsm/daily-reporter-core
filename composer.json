@@ -1,0 +1,14 @@
+{
+    "name": "molsm/daily-reporter",
+    "description": "Jira Tempo worklog parser and mail sender",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maris Mols",
+            "email": "maris9229@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
