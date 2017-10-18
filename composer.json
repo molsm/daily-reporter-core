@@ -11,11 +11,14 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "symfony/console": "^3.3"
+        "symfony/console": "^3.3",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/config": "^3.3",
+        "symfony/yaml": "^3.3"
     },
     "autoload": {
         "psr-4": {
-            "DailyReporter\\": "app"
+            "DailyReporter\\": "src"
         }
     }
 }
