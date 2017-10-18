@@ -22,7 +22,7 @@ class Application
     public function run()
     {
         $this->registerContainers();
-        $this->bootstrapConsoleApllication();
+        $this->bootstrapConsoleApplication();
         $this->registerCommands();
 
         return $this->consoleApplication->run();
@@ -39,7 +39,7 @@ class Application
         $this->container->compile();
     }
 
-    private function bootstrapConsoleApllication()
+    private function bootstrapConsoleApplication()
     {
         $this->consoleApplication = new ConsoleApplication();
     }
