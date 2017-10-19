@@ -2,6 +2,7 @@
 
 namespace DailyReporter\Command;
 
+use DailyReporter\Api\Core\BuildInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,6 +25,6 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::execute($input, $output);
+//        parent::execute($input, $output);
     }
 }
