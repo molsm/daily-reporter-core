@@ -1,6 +1,6 @@
 <?php
 
-namespace DailyReporter\Api\Core;
+namespace DailyReporter\Api\Sections;
 
 interface SectionInterface
 {

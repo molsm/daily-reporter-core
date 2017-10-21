@@ -3,6 +3,7 @@
 namespace DailyReporter\Report;
 
 use DailyReporter\Core\AbstractReport;
+use DailyReporter\Sections\ListOfTodayDoneTickets;
 use DailyReporter\Sections\SummaryOfCriticalIssues;
 
 class Generic extends AbstractReport
@@ -10,6 +11,6 @@ class Generic extends AbstractReport
     protected $template = 'generic.html.twig';
 
     protected $sections = [
-        SummaryOfCriticalIssues::class
+        ListOfTodayDoneTickets::class
     ];
 }

@@ -2,6 +2,8 @@
 
 namespace DailyReporter\Command;
 
+use chobie\Jira\Api;
+use chobie\Jira\Api\Authentication\Basic;
 use DailyReporter\Mailer;
 use DailyReporter\Report\Generic;
 use DailyReporter\Report\GenericFactory;
@@ -57,6 +59,7 @@ class GenerateCommand extends Command
     {
         $symfonyStyle = new SymfonyStyle($input, $output);
         $this->container->set('io', $symfonyStyle);
+
         $this->generic->build();
         $report = $this->generic->finish();
         $this->mailer->send($report);

@@ -2,32 +2,27 @@
 
 namespace DailyReporter\Sections;
 
+use DailyReporter\Validator\JiraTicket as JiraTicketValidator;
 
-use DailyReporter\Api\Core\SectionInterface;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-
-class SummaryOfCriticalIssues implements SectionInterface
+class SummaryOfCriticalIssues extends AbstractSection
 {
+    protected $sectionName = 'Summary of critical issue';
+
     /**
-     * @var SymfonyStyle
+     * @return array
      */
-    private $io;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->io = $container->get('io');
-    }
-
-    public function getSectionName(): string
-    {
-        return 'Summary of critical issue';
-    }
-
     public function process(): array
     {
-        $ticketId = $this->io->ask('Enter Jira ticket Id', null);
+        $result = [];
+        $continue = true;
 
-        return ['ticket_id' => $ticketId];
+        if ($this->io->confirm('Do you have critical issues?', false)) {
+            while ($continue) {
+                $result[] = $this->io->ask('Enter Jira ticket Id', null, new JiraTicketValidator);
+                $continue = $this->io->confirm('One more?', false);
+            }
+        }
+
+        return $result;
     }
 }
