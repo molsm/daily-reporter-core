@@ -57,7 +57,6 @@ class GenerateCommand extends Command
     {
         $symfonyStyle = new SymfonyStyle($input, $output);
         $this->container->set('io', $symfonyStyle);
-
         $this->generic->build();
         $report = $this->generic->finish();
         $this->mailer->send($report);

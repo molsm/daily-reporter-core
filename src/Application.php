@@ -9,6 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Dotenv\Dotenv;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -42,6 +43,9 @@ class Application
 
         $template = new Twig_Environment(new Twig_Loader_Filesystem(__DIR__.'/../resources/views'));
         $this->container->set('template', $template);
+
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../.env');
     }
 
     private function bootstrapConsoleApplication()
