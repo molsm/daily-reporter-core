@@ -7,14 +7,22 @@ use DailyReporter\Core\AbstractReport;
 interface ReportInterface
 {
     /**
-     * @return void
+     * @return mixed
      */
-    public function finish();
+    public function build(): AbstractReport;
 
     /**
-     * @param $key
-     * @param $value
      * @return AbstractReport
      */
-    public function setParts($key, $value): AbstractReport;
+    public function finish(): AbstractReport;
+
+    /**
+     * @return array
+     */
+    public function getData(): array;
+
+    /**
+     * @return string
+     */
+    public function getTemplate(): string;
 }

@@ -2,14 +2,12 @@
 
 namespace DailyReporter\Command;
 
-use DailyReporter\Api\Core\BuildInterface;
-use DailyReporter\Core\Template;
+use DailyReporter\Mailer;
+use DailyReporter\Report\Generic;
 use DailyReporter\Report\GenericFactory;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -19,11 +17,27 @@ class GenerateCommand extends Command
      * @var GenericFactory
      */
     private $reportGenericFactory;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(GenericFactory $reportGenericFactory)
+    /**
+     * @var Generic
+     */
+    private $generic;
+
+    /**
+     * @var Mailer
+     */
+    private $mailer;
+
+    public function __construct(Generic $generic, ContainerInterface $container, Mailer $mailer)
     {
         parent::__construct();
-        $this->reportGenericFactory = $reportGenericFactory;
+        $this->container = $container;
+        $this->generic = $generic;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -41,22 +55,11 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $genericReport = $this->reportGenericFactory->create();
-        /** @var QuestionHelper $helper */
-        $helper = $this->getHelper('question');
-        $io = new SymfonyStyle($input, $output);
+        $symfonyStyle = new SymfonyStyle($input, $output);
+        $this->container->set('io', $symfonyStyle);
 
-        $io->section('Hello');
-
-        $io->ask('Number of workers to start', null, function ($number) {
-            return $number;
-        });
-
-//        foreach ($genericReport->getQuestions() as $questionId => $questionData) {
-//            $question = new Question($questionData['question'], $questionData['default']);
-//            $answer = $helper->ask($input, $output, $question);
-//
-//            $genericReport->setParts($questionId, $answer);
-//        }
+        $this->generic->build();
+        $report = $this->generic->finish();
+        $this->mailer->send($report);
     }
 }

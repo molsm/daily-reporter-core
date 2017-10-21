@@ -3,45 +3,65 @@
 namespace DailyReporter\Core;
 
 use DailyReporter\Api\Core\ReportInterface;
+use DailyReporter\Api\Core\SectionInterface;
 use DailyReporter\Exception\ReportCanNotBeFinished;
 use DailyReporter\Exception\ReportIsNoValid;
+use Psr\Container\ContainerInterface;
 
 abstract class AbstractReport implements ReportInterface
 {
-    /**
-     * @var array
-     */
-    private $parts = [];
+    protected $sections = [];
+
+    private $data = [];
+
+    protected $template;
 
     /**
-     * @var array
+     * @var ContainerInterface
      */
-    protected $requiredParts = [];
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
 
     /**
+     * @return AbstractReport
      * @throws ReportCanNotBeFinished
      */
-    public function finish()
+    public function finish(): AbstractReport
     {
-        if (empty($requiredParts)) {
-            throw new ReportCanNotBeFinished('Required parts is not defined');
+        if (!$this->template) {
+            throw new ReportCanNotBeFinished('Template is not set');
         }
 
-        foreach ($requiredParts as $part) {
-            if (!array_key_exists($part, $this->parts)) {
-                throw new ReportCanNotBeFinished('Not all report parts has been provided');
-            }
-        }
+        return $this;
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @return $this
+     * @return AbstractReport
      */
-    public function setParts($key, $value): AbstractReport
+    public function build(): AbstractReport
     {
-        $this->data[$key] = $value;
+        /** @var SectionInterface $section */
+        foreach ($this->sections as $section) {
+            $section = $this->container->get($section);
+            $this->container->get('io')->section($section->getSectionName());
+            $this->data[] = $section->process();
+        }
+
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    public function getTemplate(): string
+    {
+        return $this->template;
     }
 }
