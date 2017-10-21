@@ -2,7 +2,4 @@
 
 namespace DailyReporter\Exception;
 
-class ReportCanNotBeFinished extends \Exception
-{
-
-}
+class ReportCanNotBeFinished extends \Exception {}

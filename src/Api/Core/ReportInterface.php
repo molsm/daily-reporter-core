@@ -2,6 +2,8 @@
 
 namespace DailyReporter\Api\Core;
 
+use DailyReporter\Core\AbstractReport;
+
 interface ReportInterface
 {
     /**
@@ -12,9 +14,7 @@ interface ReportInterface
     /**
      * @param $key
      * @param $value
-     * @return $this
+     * @return AbstractReport
      */
-    public function setParts($key, $value);
-
-    public function getQuestions();
+    public function setParts($key, $value): AbstractReport;
 }

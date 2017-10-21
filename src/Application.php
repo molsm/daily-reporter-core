@@ -3,11 +3,14 @@
 namespace DailyReporter;
 
 use DailyReporter\Command\GenerateCommand;
+use DailyReporter\Core\Template;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class Application
 {
@@ -19,7 +22,7 @@ class Application
 
     public function run()
     {
-        $this->registerContainers();
+        $this->registerServiceProviders();
         $this->bootstrapConsoleApplication();
         $this->registerCommands();
 
@@ -29,12 +32,16 @@ class Application
     /**
      * @return void
      */
-    private function registerContainers()
+    private function registerServiceProviders()
     {
         $this->container = new ContainerBuilder();
-        $loader = new YamlFileLoader($this->container, new FileLocator(__DIR__.'/../app/config'));
+
+        $loader = new YamlFileLoader($this->container, new FileLocator(__DIR__.'/config'));
         $loader->load('services.yml');
         $this->container->compile();
+
+        $template = new Twig_Environment(new Twig_Loader_Filesystem(__DIR__.'/../resources/views'));
+        $this->container->set('template', $template);
     }
 
     private function bootstrapConsoleApplication()

@@ -4,13 +4,14 @@ namespace DailyReporter\Core;
 
 use DailyReporter\Api\Core\ReportInterface;
 use DailyReporter\Exception\ReportCanNotBeFinished;
+use DailyReporter\Exception\ReportIsNoValid;
 
 abstract class AbstractReport implements ReportInterface
 {
     /**
      * @var array
      */
-    private $data = [];
+    private $parts = [];
 
     /**
      * @var array
@@ -27,7 +28,7 @@ abstract class AbstractReport implements ReportInterface
         }
 
         foreach ($requiredParts as $part) {
-            if (!array_key_exists($part, $this->data)) {
+            if (!array_key_exists($part, $this->parts)) {
                 throw new ReportCanNotBeFinished('Not all report parts has been provided');
             }
         }
@@ -38,7 +39,7 @@ abstract class AbstractReport implements ReportInterface
      * @param $value
      * @return $this
      */
-    public function setParts($key, $value)
+    public function setParts($key, $value): AbstractReport
     {
         $this->data[$key] = $value;
         return $this;
