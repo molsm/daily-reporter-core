@@ -24,28 +24,27 @@ class Mailer implements MailerInterface
         $mail = new PHPMailer(true);
 
         try {
-            //Server settings
-            $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+            // TODO: Implement verbosity level
+            if (false) {
+                $mail->SMTPDebug = 2;
+            }
+                                            // Enable verbose debug output
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'smtp1.example.com;smtp2.example.com';  // Specify main and backup SMTP servers
+            $mail->Host = getenv('SMTP_HOST');  // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'user@example.com';                 // SMTP username
-            $mail->Password = 'secret';                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                                    // TCP port to connect to
+            $mail->Username = getenv('SMTP_USERNAME');                 // SMTP username
+            $mail->Password = getenv('SMTP_PASSWORD');                           // SMTP password
+            $mail->Port = getenv('SMTP_PORT');                                    // TCP port to connect to
 
             //Recipients
-            $mail->setFrom('from@example.com', 'Mailer');
-            $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-            $mail->addAddress('ellen@example.com');               // Name is optional
-            $mail->addReplyTo('info@example.com', 'Information');
-            $mail->addCC('cc@example.com');
-            $mail->addBCC('bcc@example.com');
+            $mail->setFrom(getenv('MAIL_FROM'), getenv('MAIL_FROM_FULL_NAME'));
+            $mail->addAddress(getenv('MAIL_TO'));
+            $mail->addReplyTo(getenv('MAIL_FROM'), getenv('MAIL_FROM_FULL_NAME'));
 
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'Here is the subject';
-            $mail->Body    = 'Hello';
+            $mail->Subject = 'Daily report';
+            $mail->Body    = $this->container->get('template')->render($report->getTemplate());
             $mail->send();
 
             echo 'Message has been sent';

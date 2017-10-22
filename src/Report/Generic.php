@@ -17,7 +17,7 @@ class Generic extends AbstractReport
 //        SummaryOfCriticalIssues::class,
 //        ListOfTodayDoneTickets::class,
 //        ExceededEstimates::class,
-        PendingTasks::class,
+//        PendingTasks::class,
         InputFromPmClientRequired::class
     ];
 }
