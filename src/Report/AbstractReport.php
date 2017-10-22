@@ -1,6 +1,6 @@
 <?php
 
-namespace DailyReporter\Core;
+namespace DailyReporter\Report;
 
 use DailyReporter\Api\Core\ReportInterface;
 use DailyReporter\Api\Sections\SectionInterface;
@@ -10,10 +10,19 @@ use Psr\Container\ContainerInterface;
 
 abstract class AbstractReport implements ReportInterface
 {
+    /**
+     * @var array
+     */
     protected $sections = [];
 
+    /**
+     * @var array
+     */
     private $data = [];
 
+    /**
+     * @var
+     */
     protected $template;
 
     /**
@@ -21,6 +30,10 @@ abstract class AbstractReport implements ReportInterface
      */
     private $container;
 
+    /**
+     * AbstractReport constructor.
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -55,11 +68,17 @@ abstract class AbstractReport implements ReportInterface
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getData(): array
     {
         return $this->data;
     }
 
+    /**
+     * @return string
+     */
     public function getTemplate(): string
     {
         return $this->template;

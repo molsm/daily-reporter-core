@@ -2,6 +2,7 @@
 
 namespace DailyReporter\Sections;
 
+use DailyReporter\Exception\CanNotRetrieveDataFromJira;
 use DailyReporter\Helper\Jira;
 use DailyReporter\Jira\Client;
 use DailyReporter\Validator\JiraTicket as JiraTicketValidator;
@@ -39,8 +40,13 @@ class SummaryOfCriticalIssues extends AbstractSection
             while ($continue) {
                 $ticketId = $this->io->ask('Enter Jira ticket Id', null, new JiraTicketValidator);
 
-                $apiResult = $this->client->getTicket($ticketId);
-                $ticket = $apiResult->getResult();
+                try {
+                    $ticket = $this->client->getTicket($ticketId);
+                } catch (CanNotRetrieveDataFromJira $e) {
+                    $this->io->warning($e->getMessage());
+                    continue;
+                }
+
                 $ticketData = [
                     'ticketId' => $ticket['key'],
                     'ticketName' => $ticket['fields']['summary'],
@@ -55,7 +61,7 @@ class SummaryOfCriticalIssues extends AbstractSection
 
                 $data[] = $ticketData;
 
-                $continue = $this->io->confirm('One more?', false);
+                $continue = $this->io->confirm('Add one more?', false);
             }
         }
 
@@ -68,7 +74,7 @@ class SummaryOfCriticalIssues extends AbstractSection
     private function showData(array $data)
     {
         $this->io->table(
-            ['Ticket Id', 'Ticket name', 'Ticket URL'],
+            ['Ticket Id', 'Ticket name', 'Ticket URL', 'Comment'],
             $data
         );
     }

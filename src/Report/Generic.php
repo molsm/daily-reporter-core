@@ -2,7 +2,7 @@
 
 namespace DailyReporter\Report;
 
-use DailyReporter\Core\AbstractReport;
+use DailyReporter\Report\AbstractReport;
 use DailyReporter\Sections\ExceededEstimates;
 use DailyReporter\Sections\InputFromPmClientRequired;
 use DailyReporter\Sections\ListOfTodayDoneTickets;
@@ -15,9 +15,9 @@ class Generic extends AbstractReport
 
     protected $sections = [
         SummaryOfCriticalIssues::class,
-//        ListOfTodayDoneTickets::class,
-//        ExceededEstimates::class,
-//        PendingTasks::class,
-//        InputFromPmClientRequired::class
+        ListOfTodayDoneTickets::class,
+        ExceededEstimates::class,
+        PendingTasks::class,
+        InputFromPmClientRequired::class
     ];
 }

@@ -2,6 +2,7 @@
 
 namespace DailyReporter\Sections;
 
+use DailyReporter\Exception\CanNotRetrieveDataFromJira;
 use DailyReporter\Helper\Jira;
 use DailyReporter\Jira\Client;
 use DailyReporter\Sections\AbstractSection as Section;
@@ -38,8 +39,14 @@ class PendingTasks extends Section
 
         while ($continue) {
             $ticketId = $this->io->ask('Provide ticket Id / Key', null, new JiraTicketValidator);
-            $apiResult = $this->client->getTicket($ticketId);
-            $ticket = $apiResult->getResult();
+
+            try {
+                $ticket = $this->client->getTicket($ticketId);
+            } catch (CanNotRetrieveDataFromJira $e) {
+                $this->io->warning($e->getMessage());
+                continue;
+            }
+
             $data[] = [
                 'ticketId' => $ticket['key'],
                 'ticketName' => $ticket['fields']['summary'],

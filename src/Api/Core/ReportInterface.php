@@ -2,7 +2,7 @@
 
 namespace DailyReporter\Api\Core;
 
-use DailyReporter\Core\AbstractReport;
+use DailyReporter\Report\AbstractReport;
 
 interface ReportInterface
 {

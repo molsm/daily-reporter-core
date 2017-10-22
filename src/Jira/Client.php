@@ -6,6 +6,7 @@ use chobie\Jira\Api;
 use chobie\Jira\Api\Authentication\Basic;
 use chobie\Jira\Api\Result;
 use DailyReporter\Api\Jira\ClientInterface;
+use DailyReporter\Exception\CanNotRetrieveDataFromJira;
 
 class Client implements ClientInterface
 {
@@ -23,9 +24,15 @@ class Client implements ClientInterface
      * @param string $ticketId
      * @return Result|false
      */
-    public function getTicket(string $ticketId)
+    public function getTicket(string $ticketId): array
     {
-        return $this->connection->getIssue($ticketId);
+        $result = $this->connection->getIssue($ticketId)->getResult();
+
+        if (isset($result['errorMessages'])) {
+            throw new CanNotRetrieveDataFromJira(implode('. ', $result['errorMessages']));
+        }
+
+        return $result;
     }
 
     /**
