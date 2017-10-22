@@ -14,8 +14,8 @@ class Generic extends AbstractReport
     protected $template = 'generic.html.twig';
 
     protected $sections = [
-//        SummaryOfCriticalIssues::class,
-        ListOfTodayDoneTickets::class,
+        SummaryOfCriticalIssues::class,
+//        ListOfTodayDoneTickets::class,
 //        ExceededEstimates::class,
 //        PendingTasks::class,
 //        InputFromPmClientRequired::class

@@ -19,6 +19,10 @@ class Client implements ClientInterface
         );
     }
 
+    /**
+     * @param string $ticketId
+     * @return Result|false
+     */
     public function getTicket(string $ticketId)
     {
         return $this->connection->getIssue($ticketId);

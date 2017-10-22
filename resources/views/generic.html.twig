@@ -3,13 +3,19 @@
 
     <div>
         <strong>Summary of critical issues:</strong>
-        {% if summaryOfCriticalIssues is empty %}
-            <p>n/a</p>
-        {% else %}
-            {% for issue in summaryOfCriticalIssues %}
-                <p>{{ issue }}</p>
-            {% endfor %}
-        {% endif %}
+        <p>
+            {% if summaryOfCriticalIssues is empty %}
+                n/a
+            {% else %}
+                {% for issue in summaryOfCriticalIssues %}
+                    <b>{{ loop.index }}. {{ issue.ticketId }}</b> - {{ issue.ticketName }} (<a href="{{ issueticketUrl }}">{{ issue.ticketUrl }}</a>)<br>
+                    {% if issue.comment %}
+                        {{ issue.comment }}
+                    {% endif %}
+                    <br>
+                {% endfor %}
+            {% endif %}
+        </p>
     </div>
     <div>
         <strong>Done today:</strong>
