@@ -64,7 +64,6 @@ class GenerateCommand extends Command
             throw new RuntimeException('Report with this code not exists');
         }
 
-        var_dump($this->container->getDefinitions());
         $report = $this->container->get($reports[$reportCode])->build();
 
         $symfonyStyle->section('Finish');
