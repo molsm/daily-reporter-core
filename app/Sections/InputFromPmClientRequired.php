@@ -6,6 +6,9 @@ use DailyReporter\Sections\AbstractSection as Section;
 
 class InputFromPmClientRequired extends Section
 {
+    /**
+     * @var string
+     */
     protected $sectionName = 'Input from PM / Client Required';
 
     /**

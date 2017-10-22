@@ -4,8 +4,6 @@ namespace DailyReporter;
 
 use DailyReporter\Api\ConfigInterface;
 use DailyReporter\Command\GenerateCommand;
-use DailyReporter\Core\Template;
-use DailyReporter\Report\Collection;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

@@ -11,6 +11,9 @@ use Psr\Container\ContainerInterface;
 
 class SummaryOfCriticalIssues extends AbstractSection
 {
+    /**
+     * @var string
+     */
     protected $sectionName = 'Summary of critical issue';
 
     /**

@@ -11,6 +11,9 @@ use DailyReporter\Validator\JiraTicket as JiraTicketValidator;
 
 class PendingTasks extends Section
 {
+    /**
+     * @var string
+     */
     protected $sectionName = 'Pending tasks';
 
     /**

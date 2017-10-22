@@ -6,6 +6,9 @@ use DailyReporter\Sections\AbstractSection as Section;
 
 class ExceededEstimates extends Section
 {
+    /**
+     * @var string
+     */
     protected $sectionName = 'Exceeded estimates';
 
     /**

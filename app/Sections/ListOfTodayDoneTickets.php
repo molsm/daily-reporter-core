@@ -9,6 +9,9 @@ use Psr\Container\ContainerInterface;
 
 final class ListOfTodayDoneTickets extends \DailyReporter\Sections\AbstractSection
 {
+    /**
+     * @var string
+     */
     protected $sectionName = 'Done Today';
 
     /**

@@ -5,7 +5,6 @@ namespace DailyReporter\Report;
 use DailyReporter\Api\Core\ReportInterface;
 use DailyReporter\Api\Sections\SectionInterface;
 use DailyReporter\Exception\ReportCanNotBeBuilded;
-use DailyReporter\Exception\ReportCanNotBeFinished;
 use DailyReporter\Exception\ReportIsNoValid;
 use Psr\Container\ContainerInterface;
 
@@ -85,6 +84,9 @@ abstract class AbstractReport implements ReportInterface
         return $this->template;
     }
 
+    /**
+     * @return string
+     */
     public function getSubject(): string
     {
         return $this->subject;

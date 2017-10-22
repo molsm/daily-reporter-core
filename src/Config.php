@@ -3,20 +3,29 @@
 namespace DailyReporter;
 
 use DailyReporter\Api\ConfigInterface;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
 class Config implements ConfigInterface
 {
+    /**
+     * @var mixed
+     */
     private $config;
+
+    /**
+     * @var
+     */
     private $reports;
+
+    /**
+     * @var
+     */
     private $commands;
 
     /**
-     * @var FileLocator
+     * Config constructor.
+     * @param null $file
      */
-    private $fileLocator;
-
     public function __construct($file = null)
     {
         $this->config = Yaml::parse(file_get_contents($file));
@@ -26,11 +35,17 @@ class Config implements ConfigInterface
         }
     }
 
+    /**
+     * @return array
+     */
     public function getReports(): array
     {
         return $this->reports;
     }
 
+    /**
+     * @return array
+     */
     public function getCommands(): array
     {
         return $this->commands;
