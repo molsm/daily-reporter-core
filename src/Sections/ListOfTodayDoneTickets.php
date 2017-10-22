@@ -5,9 +5,10 @@ namespace DailyReporter\Sections;
 use DailyReporter\Jira\Client;
 use Psr\Container\ContainerInterface;
 
-class ListOfTodayDoneTickets extends AbstractSection
+final class ListOfTodayDoneTickets extends \DailyReporter\Sections\AbstractSection
 {
     protected $sectionName = 'Done Today';
+
     /**
      * @var Client
      */
@@ -19,6 +20,9 @@ class ListOfTodayDoneTickets extends AbstractSection
         $this->client = $client;
     }
 
+    /**
+     * @return array
+     */
     public function process(): array
     {
         $data = [];
@@ -26,9 +30,25 @@ class ListOfTodayDoneTickets extends AbstractSection
         $apiResult = $this->client->getWorklog(getenv('JIRA_WORKLOG_USERNAME'), '2017-10-20', '2017-10-21');
 
         foreach ($apiResult->getResult() as $worklog) {
-            var_dump($worklog['comment']);
+            $data[] = [
+                'ticketId' => $worklog['issue']['key'],
+                'ticketName' => $worklog['issue']['summary'],
+                'timeSpent' => $worklog['timeSpentSeconds'],
+                'comment' => $worklog['comment']
+            ];
         }
 
-        return $data;
+        $this->showDataResult($data);
+
+        return ['doneTicketsList' => $data];
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    private function showDataResult(array $data)
+    {
+        $this->io->table(['Jira Ticket Id', 'Ticket Name', 'Time spent', 'Comment'], $data);
     }
 }

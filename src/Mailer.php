@@ -3,10 +3,11 @@
 namespace DailyReporter;
 
 use DailyReporter\Api\Core\ReportInterface;
+use DailyReporter\Api\MailerInterface;
 use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Mailer
+class Mailer implements MailerInterface
 {
     /**
      * @var ContainerInterface

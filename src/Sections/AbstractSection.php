@@ -7,7 +7,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use DailyReporter\Exception\ReportCanNotBeBuilded;
 
-class AbstractSection implements SectionInterface
+abstract class AbstractSection implements SectionInterface
 {
     /**
      * @var SymfonyStyle

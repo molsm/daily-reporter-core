@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maris
- * Date: 21/10/2017
- * Time: 19:14
- */
 
 namespace DailyReporter\Jira;
-
 
 use chobie\Jira\Api;
 use chobie\Jira\Api\Authentication\Basic;
