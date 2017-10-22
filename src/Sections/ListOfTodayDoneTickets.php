@@ -2,6 +2,8 @@
 
 namespace DailyReporter\Sections;
 
+use DailyReporter\Helper\Jira;
+use DailyReporter\Helper\Time;
 use DailyReporter\Jira\Client;
 use Psr\Container\ContainerInterface;
 
@@ -27,14 +29,15 @@ final class ListOfTodayDoneTickets extends \DailyReporter\Sections\AbstractSecti
     {
         $data = [];
 
-        $apiResult = $this->client->getWorklog(getenv('JIRA_WORKLOG_USERNAME'), '2017-10-20', '2017-10-21');
+        $apiResult = $this->client->getWorklog(getenv('JIRA_WORKLOG_USERNAME'), '2017-10-20', '2017-10-20');
 
         foreach ($apiResult->getResult() as $worklog) {
             $data[] = [
                 'ticketId' => $worklog['issue']['key'],
                 'ticketName' => $worklog['issue']['summary'],
-                'timeSpent' => $worklog['timeSpentSeconds'],
-                'comment' => $worklog['comment']
+                'timeSpent' => Time::convertSecondsIntoStringWithHour($worklog['timeSpentSeconds']),
+                'comment' => $worklog['comment'],
+                'ticketUrl' => Jira::getTicketUrl($worklog['issue']['key'])
             ];
         }
 

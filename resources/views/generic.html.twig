@@ -6,7 +6,13 @@
         <p>n/a</p>
     </div>
     <div>
-        <strong>Done today {{ date }}:</strong>
-        <p>Some</p>
+        <strong>Done today:</strong>
+        {% for ticket in doneTicketsList %}
+            <p>
+                <b>{{ loop.index }}. {{ ticket.ticketId }}</b> - {{ ticket.ticketName }}
+                    (<a href="{{ ticket.ticketUrl }}">{{ ticket.ticketUrl }}</a>) - {{ ticket.timeSpent }}
+            </p>
+            <p>{{ ticket.comment|nl2br }}</p>
+        {% endfor %}
     </div>
 </div>

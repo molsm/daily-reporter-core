@@ -47,7 +47,8 @@ class Mailer implements MailerInterface
             //Content
             $mail->isHTML(true);
             $mail->Subject = 'Daily report';
-            $mail->Body = $this->container->get('template')->render($report->getTemplate());
+            $mail->Body = $this->container->get('template')->render($report->getTemplate(), $report->getData());
+            var_dump($mail->Body);
             $mail->send();
 
             echo 'Message has been sent';

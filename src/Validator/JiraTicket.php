@@ -4,6 +4,11 @@ namespace DailyReporter\Validator;
 
 class JiraTicket
 {
+    /**
+     * @param $input
+     * @return mixed
+     * @throws \RuntimeException
+     */
     public function __invoke($input)
     {
         if (!$input) {
