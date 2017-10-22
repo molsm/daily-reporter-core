@@ -29,8 +29,13 @@ final class ListOfTodayDoneTickets extends \DailyReporter\Sections\AbstractSecti
     {
         $data = [];
 
-        $apiResult = $this->client->getWorklog(getenv('JIRA_WORKLOG_USERNAME'), '2017-10-20', '2017-10-20');
+        $apiResult = $this->client->getWorklog(
+            getenv('JIRA_WORKLOG_USERNAME'),
+            getenv('REPORT_DATE_FROM'),
+            getenv('REPORT_DATE_TO')
+        );
 
+        $totalTimeSpentInSeconds = 0;
         foreach ($apiResult->getResult() as $worklog) {
             $data[] = [
                 'ticketId' => $worklog['issue']['key'],
@@ -39,19 +44,27 @@ final class ListOfTodayDoneTickets extends \DailyReporter\Sections\AbstractSecti
                 'comment' => $worklog['comment'],
                 'ticketUrl' => Jira::getTicketUrl($worklog['issue']['key'])
             ];
+
+            $totalTimeSpentInSeconds += $worklog['timeSpentSeconds'];
         }
 
-        $this->showDataResult($data);
+        $totalTimeSpent = Time::convertSecondsIntoStringWithHour($totalTimeSpentInSeconds);
+        $this->showDataResult($data, $totalTimeSpent);
 
-        return ['doneTicketsList' => $data];
+        return ['doneTicketsList' => $data, 'totalTimeSpent' => $totalTimeSpent];
     }
 
     /**
      * @param array $data
+     * @param string $totalTimeSpent
      * @return void
      */
-    private function showDataResult(array $data)
+    private function showDataResult(array $data, string $totalTimeSpent)
     {
-        $this->io->table(['Jira Ticket Id', 'Ticket Name', 'Time spent', 'Comment'], $data);
+        $data[] = ['', 'Total', $totalTimeSpent, '', '', ''];
+        $this->io->table(
+            ['Jira Ticket Id', 'Ticket Name', 'Time spent', 'Comment', 'Ticket Url'],
+            $data
+        );
     }
 }

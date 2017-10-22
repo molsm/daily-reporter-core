@@ -19,11 +19,9 @@ class Client implements ClientInterface
         );
     }
 
-    public function getTicket(string $ticketId): array
+    public function getTicket(string $ticketId)
     {
-        $this->connection->api($this->connection::REQUEST_GET, static::API_ENDPOINT_URL);
-
-        return [];
+        return $this->connection->getIssue($ticketId);
     }
 
     /**

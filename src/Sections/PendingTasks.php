@@ -2,9 +2,11 @@
 
 namespace DailyReporter\Sections;
 
+use DailyReporter\Helper\Jira;
 use DailyReporter\Jira\Client;
 use DailyReporter\Sections\AbstractSection as Section;
 use Psr\Container\ContainerInterface;
+use DailyReporter\Validator\JiraTicket as JiraTicketValidator;
 
 class PendingTasks extends Section
 {
@@ -35,10 +37,32 @@ class PendingTasks extends Section
         $continue = true;
 
         while ($continue) {
-            $data[] = $this->io->ask('Provide ticket Id', null);
+            $ticketId = $this->io->ask('Provide ticket Id / Key', null, new JiraTicketValidator);
+            $apiResult = $this->client->getTicket($ticketId);
+            $ticket = $apiResult->getResult();
+            $data[] = [
+                'ticketId' => $ticket['key'],
+                'ticketName' => $ticket['fields']['summary'],
+                'ticketUrl' => Jira::getTicketUrl($ticket['key'])
+            ];
+
+            $this->io->title('Current pending tickets');
+            $this->showData($data);
+
             $continue = $this->io->confirm('Add more?', true);
         }
 
         return ['pendingTasks' => $data];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function showData(array $data)
+    {
+        $this->io->table(
+            ['Ticket Id', 'Ticket name', 'Ticket URL'],
+            $data
+        );
     }
 }

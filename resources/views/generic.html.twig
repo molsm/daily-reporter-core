@@ -3,7 +3,13 @@
 
     <div>
         <strong>Summary of critical issues:</strong>
-        <p>n/a</p>
+        {% if summaryOfCriticalIssues is empty %}
+            <p>n/a</p>
+        {% else %}
+            {% for issue in summaryOfCriticalIssues %}
+                <p>{{ issue }}</p>
+            {% endfor %}
+        {% endif %}
     </div>
     <div>
         <strong>Done today:</strong>
@@ -14,5 +20,32 @@
             </p>
             <p>{{ ticket.comment|nl2br }}</p>
         {% endfor %}
+    </div>
+    <div>
+        <strong>Exceeded estimates:</strong>
+        {% for estimate in exceededEstimates %}
+            <p>{{ estimate }}</p>
+        {% endfor %}
+    </div>
+    <div>
+        <strong>Pending tasks:</strong>
+        <p>
+            {% for pending in pendingTasks %}
+                <b>{{ loop.index }}. {{ pending.ticketId }}</b> - {{ pending.ticketName }} (<a href="{{ pending.ticketUrl }}">{{ pending.ticketUrl }}</a>)<br>
+            {% endfor %}
+        </p>
+    </div>
+    <div>
+        <strong>Input from PM / Client Required:</strong>
+        {% if inputFromPmOrClient is empty %}
+            <p>n/a</p>
+        {% else %}
+            {% for input in inputFromPmOrClient%}
+                <p>{{ input }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        <p><b>Total time spent: {{ totalTimeSpent }}</b></p>
     </div>
 </div>
