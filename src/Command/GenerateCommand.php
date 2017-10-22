@@ -2,11 +2,10 @@
 
 namespace DailyReporter\Command;
 
-use chobie\Jira\Api;
-use chobie\Jira\Api\Authentication\Basic;
+use App\Report\GenericTwo;
+use DailyReporter\Api\ConfigInterface;
 use DailyReporter\Mailer;
 use DailyReporter\Report\Generic;
-use DailyReporter\Report\GenericFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,10 +14,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GenerateCommand extends Command
 {
-    /**
-     * @var GenericFactory
-     */
-    private $reportGenericFactory;
     /**
      * @var ContainerInterface
      */
@@ -34,12 +29,18 @@ class GenerateCommand extends Command
      */
     private $mailer;
 
-    public function __construct(Generic $generic, ContainerInterface $container, Mailer $mailer)
+    /**
+     * @var ConfigInterface
+     */
+    private $config;
+
+    public function __construct(GenericTwo $generic, ContainerInterface $container, Mailer $mailer)
     {
         parent::__construct();
         $this->container = $container;
         $this->generic = $generic;
         $this->mailer = $mailer;
+        $this->config = $container->get(ConfigInterface::class);
     }
 
     /**

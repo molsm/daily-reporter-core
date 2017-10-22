@@ -1,10 +1,11 @@
 <?php
 
-namespace DailyReporter\Sections;
+namespace App\Sections;
 
 use DailyReporter\Exception\CanNotRetrieveDataFromJira;
 use DailyReporter\Helper\Jira;
 use DailyReporter\Jira\Client;
+use DailyReporter\Sections\AbstractSection;
 use DailyReporter\Validator\JiraTicket as JiraTicketValidator;
 use Psr\Container\ContainerInterface;
 

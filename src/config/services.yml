@@ -13,3 +13,7 @@ services:
         public: true
         resource: '../../src/*'
         exclude: '../../src/Application.php'
+
+    App\:
+        public: true
+        resource: '../../app/*'

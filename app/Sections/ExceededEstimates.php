@@ -1,6 +1,6 @@
 <?php
 
-namespace DailyReporter\Sections;
+namespace App\Sections;
 
 use DailyReporter\Sections\AbstractSection as Section;
 

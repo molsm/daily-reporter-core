@@ -1,15 +1,15 @@
 <?php
 
-namespace DailyReporter\Report;
+namespace App\Report;
 
 use DailyReporter\Report\AbstractReport;
-use DailyReporter\Sections\ExceededEstimates;
-use DailyReporter\Sections\InputFromPmClientRequired;
-use DailyReporter\Sections\ListOfTodayDoneTickets;
-use DailyReporter\Sections\PendingTasks;
-use DailyReporter\Sections\SummaryOfCriticalIssues;
+use App\Sections\ExceededEstimates;
+use App\Sections\InputFromPmClientRequired;
+use App\Sections\ListOfTodayDoneTickets;
+use App\Sections\PendingTasks;
+use App\Sections\SummaryOfCriticalIssues;
 
-class Generic extends AbstractReport
+class GenericTwo extends AbstractReport
 {
     protected $template = 'generic.html.twig';
 

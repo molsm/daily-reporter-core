@@ -1,6 +1,6 @@
 <?php
 
-namespace DailyReporter\Sections;
+namespace App\Sections;
 
 use DailyReporter\Exception\CanNotRetrieveDataFromJira;
 use DailyReporter\Helper\Jira;

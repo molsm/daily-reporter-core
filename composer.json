@@ -23,7 +23,8 @@
     },
     "autoload": {
         "psr-4": {
-            "DailyReporter\\": "src"
+            "DailyReporter\\": "src",
+            "App\\": "app"
         }
     }
 }
