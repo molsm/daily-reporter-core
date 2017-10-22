@@ -61,7 +61,7 @@ final class ListOfTodayDoneTickets extends \DailyReporter\Sections\AbstractSecti
      */
     private function showDataResult(array $data, string $totalTimeSpent)
     {
-        $data[] = ['', 'Total', $totalTimeSpent, '', '', ''];
+        $data[] = ['', 'Total', $totalTimeSpent, '', ''];
         $this->io->table(
             ['Jira Ticket Id', 'Ticket Name', 'Time spent', 'Comment', 'Ticket Url'],
             $data

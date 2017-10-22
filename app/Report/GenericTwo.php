@@ -13,6 +13,8 @@ class GenericTwo extends AbstractReport
 {
     protected $template = 'generic.html.twig';
 
+    protected $subject = 'Worklog report';
+
     protected $sections = [
         SummaryOfCriticalIssues::class,
         ListOfTodayDoneTickets::class,

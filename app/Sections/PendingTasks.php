@@ -37,26 +37,28 @@ class PendingTasks extends Section
         $data = [];
         $continue = true;
 
-        while ($continue) {
-            $ticketId = $this->io->ask('Provide ticket Id / Key', null, new JiraTicketValidator);
+        if ($this->io->ask('Fill pending tickets?', false)) {
+            while ($continue) {
+                $ticketId = $this->io->ask('Provide ticket Id / Key', null, new JiraTicketValidator);
 
-            try {
-                $ticket = $this->client->getTicket($ticketId);
-            } catch (CanNotRetrieveDataFromJira $e) {
-                $this->io->warning($e->getMessage());
-                continue;
+                try {
+                    $ticket = $this->client->getTicket($ticketId);
+                } catch (CanNotRetrieveDataFromJira $e) {
+                    $this->io->warning($e->getMessage());
+                    continue;
+                }
+
+                $data[] = [
+                    'ticketId' => $ticket['key'],
+                    'ticketName' => $ticket['fields']['summary'],
+                    'ticketUrl' => Jira::getTicketUrl($ticket['key'])
+                ];
+
+                $this->io->title('Current pending tickets');
+                $this->showData($data);
+
+                $continue = $this->io->confirm('Add more?', true);
             }
-
-            $data[] = [
-                'ticketId' => $ticket['key'],
-                'ticketName' => $ticket['fields']['summary'],
-                'ticketUrl' => Jira::getTicketUrl($ticket['key'])
-            ];
-
-            $this->io->title('Current pending tickets');
-            $this->showData($data);
-
-            $continue = $this->io->confirm('Add more?', true);
         }
 
         return ['pendingTasks' => $data];

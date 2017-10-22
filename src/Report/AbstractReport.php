@@ -4,6 +4,7 @@ namespace DailyReporter\Report;
 
 use DailyReporter\Api\Core\ReportInterface;
 use DailyReporter\Api\Sections\SectionInterface;
+use DailyReporter\Exception\ReportCanNotBeBuilded;
 use DailyReporter\Exception\ReportCanNotBeFinished;
 use DailyReporter\Exception\ReportIsNoValid;
 use Psr\Container\ContainerInterface;
@@ -21,9 +22,14 @@ abstract class AbstractReport implements ReportInterface
     private $data = [];
 
     /**
-     * @var
+     * @var string
      */
     protected $template;
+
+    /**
+     * @var string
+     */
+    protected $subject;
 
     /**
      * @var ContainerInterface
@@ -39,25 +45,20 @@ abstract class AbstractReport implements ReportInterface
         $this->container = $container;
     }
 
-
     /**
-     * @return AbstractReport
-     * @throws ReportCanNotBeFinished
+     * @return ReportInterface
+     * @throws ReportCanNotBeBuilded
      */
-    public function finish(): AbstractReport
+    public function build(): ReportInterface
     {
         if (!$this->template) {
-            throw new ReportCanNotBeFinished('Template is not set');
+            throw new ReportCanNotBeBuilded('Template is not set');
         }
 
-        return $this;
-    }
+        if (!$this->getSubject()) {
+            throw new ReportCanNotBeBuilded('Subject is empty');
+        }
 
-    /**
-     * @return AbstractReport
-     */
-    public function build(): AbstractReport
-    {
         /** @var SectionInterface $section */
         foreach ($this->sections as $section) {
             $section = $this->container->get($section);
@@ -82,5 +83,10 @@ abstract class AbstractReport implements ReportInterface
     public function getTemplate(): string
     {
         return $this->template;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
     }
 }

@@ -2,19 +2,16 @@
 
 namespace DailyReporter\Api\Core;
 
+use DailyReporter\Exception\ReportCanNotBeBuilded;
 use DailyReporter\Report\AbstractReport;
 
 interface ReportInterface
 {
     /**
      * @return mixed
+     * @throws ReportCanNotBeBuilded
      */
-    public function build(): AbstractReport;
-
-    /**
-     * @return AbstractReport
-     */
-    public function finish(): AbstractReport;
+    public function build(): ReportInterface;
 
     /**
      * @return array
@@ -25,4 +22,9 @@ interface ReportInterface
      * @return string
      */
     public function getTemplate(): string;
+
+    /**
+     * @return string
+     */
+    public function getSubject(): string;
 }

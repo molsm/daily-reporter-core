@@ -7,6 +7,8 @@ use DailyReporter\Api\ConfigInterface;
 use DailyReporter\Mailer;
 use DailyReporter\Report\Generic;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\RuntimeException;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -48,7 +50,8 @@ class GenerateCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('generate')->setDescription('Generate report');
+        $this->setName('generate')->setDescription('Generate report')
+            ->addArgument('report', InputArgument::REQUIRED, 'Report code');
     }
 
     /**
@@ -61,8 +64,20 @@ class GenerateCommand extends Command
         $symfonyStyle = new SymfonyStyle($input, $output);
         $this->container->set('io', $symfonyStyle);
 
-        $this->generic->build();
-        $report = $this->generic->finish();
+        $reportCode = $input->getArgument('report');
+        $reports = $this->config->getReports();
+        if (!isset($reports[$reportCode])) {
+            throw new RuntimeException('Report with this code not exists');
+        }
+
+        var_dump($this->container->getDefinitions());
+        $report = $this->container->get($reports[$reportCode])->build();
+
+        $symfonyStyle->section('Finish');
+        if (!$symfonyStyle->confirm(sprintf('Report is builded. Send report to %s', getenv('MAIL_TO')), false)) {
+            throw new RuntimeException('Mail send aborted');
+        }
+
         $this->mailer->send($report);
     }
 }

@@ -1,5 +1,2 @@
 reports:
-  generic: \App\Report\GenericTwo
-
-commands:
-  - Hello
+  generic: App\Report\GenericTwo

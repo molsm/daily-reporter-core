@@ -21,14 +21,15 @@ class Mailer implements MailerInterface
 
     /**
      * @param ReportInterface $report
+     * @return bool
      */
-    public function send(ReportInterface $report)
+    public function send(ReportInterface $report): bool
     {
         $mail = new PHPMailer(true);
 
         try {
             // TODO: Implement verbosity level
-            if (false) {
+            if (true) {
                 $mail->SMTPDebug = 2;
             }
 
@@ -39,22 +40,18 @@ class Mailer implements MailerInterface
             $mail->Password = getenv('SMTP_PASSWORD');
             $mail->Port = getenv('SMTP_PORT');
 
-            //Recipients
             $mail->setFrom(getenv('MAIL_FROM'), getenv('MAIL_FROM_FULL_NAME'));
             $mail->addAddress(getenv('MAIL_TO'));
             $mail->addReplyTo(getenv('MAIL_FROM'), getenv('MAIL_FROM_FULL_NAME'));
 
-            //Content
             $mail->isHTML(true);
-            $mail->Subject = 'Daily report';
+            $mail->Subject = $report->getSubject();
             $mail->Body = $this->container->get('template')->render($report->getTemplate(), $report->getData());
-            var_dump($mail->Body);
             $mail->send();
 
-            echo 'Message has been sent';
+            return true;
         } catch (\Exception $e) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            return false;
         }
     }
 }
