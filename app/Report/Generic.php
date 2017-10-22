@@ -9,7 +9,7 @@ use App\Sections\ListOfTodayDoneTickets;
 use App\Sections\PendingTasks;
 use App\Sections\SummaryOfCriticalIssues;
 
-class GenericTwo extends AbstractReport
+class Generic extends AbstractReport
 {
     protected $template = 'generic.html.twig';
 

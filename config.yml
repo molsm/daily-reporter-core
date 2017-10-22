@@ -1,2 +1,2 @@
 reports:
-  generic: App\Report\GenericTwo
+  generic: App\Report\Generic

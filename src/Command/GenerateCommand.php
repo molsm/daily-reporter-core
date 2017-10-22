@@ -22,11 +22,6 @@ class GenerateCommand extends Command
     private $container;
 
     /**
-     * @var Generic
-     */
-    private $generic;
-
-    /**
      * @var Mailer
      */
     private $mailer;
@@ -36,11 +31,10 @@ class GenerateCommand extends Command
      */
     private $config;
 
-    public function __construct(GenericTwo $generic, ContainerInterface $container, Mailer $mailer)
+    public function __construct(ContainerInterface $container, Mailer $mailer)
     {
         parent::__construct();
         $this->container = $container;
-        $this->generic = $generic;
         $this->mailer = $mailer;
         $this->config = $container->get(ConfigInterface::class);
     }
@@ -74,7 +68,7 @@ class GenerateCommand extends Command
         $report = $this->container->get($reports[$reportCode])->build();
 
         $symfonyStyle->section('Finish');
-        if (!$symfonyStyle->confirm(sprintf('Report is builded. Send report to %s', getenv('MAIL_TO')), false)) {
+        if (!$symfonyStyle->confirm(sprintf('Report is builded. Send report to %s', getenv('MAIL_TO')), true)) {
             throw new RuntimeException('Mail send aborted');
         }
 
