@@ -19,6 +19,9 @@ class Mailer implements MailerInterface
         $this->container = $container;
     }
 
+    /**
+     * @param ReportInterface $report
+     */
     public function send(ReportInterface $report)
     {
         $mail = new PHPMailer(true);
@@ -28,13 +31,13 @@ class Mailer implements MailerInterface
             if (false) {
                 $mail->SMTPDebug = 2;
             }
-                                            // Enable verbose debug output
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = getenv('SMTP_HOST');  // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = getenv('SMTP_USERNAME');                 // SMTP username
-            $mail->Password = getenv('SMTP_PASSWORD');                           // SMTP password
-            $mail->Port = getenv('SMTP_PORT');                                    // TCP port to connect to
+
+            $mail->isSMTP();
+            $mail->Host = getenv('SMTP_HOST');
+            $mail->SMTPAuth = true;
+            $mail->Username = getenv('SMTP_USERNAME');
+            $mail->Password = getenv('SMTP_PASSWORD');
+            $mail->Port = getenv('SMTP_PORT');
 
             //Recipients
             $mail->setFrom(getenv('MAIL_FROM'), getenv('MAIL_FROM_FULL_NAME'));
@@ -42,9 +45,9 @@ class Mailer implements MailerInterface
             $mail->addReplyTo(getenv('MAIL_FROM'), getenv('MAIL_FROM_FULL_NAME'));
 
             //Content
-            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->isHTML(true);
             $mail->Subject = 'Daily report';
-            $mail->Body    = $this->container->get('template')->render($report->getTemplate());
+            $mail->Body = $this->container->get('template')->render($report->getTemplate());
             $mail->send();
 
             echo 'Message has been sent';

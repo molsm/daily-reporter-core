@@ -13,16 +13,16 @@ class SummaryOfCriticalIssues extends AbstractSection
      */
     public function process(): array
     {
-        $result = [];
+        $data = [];
         $continue = true;
 
         if ($this->io->confirm('Do you have critical issues?', false)) {
             while ($continue) {
-                $result[] = $this->io->ask('Enter Jira ticket Id', null, new JiraTicketValidator);
+                $data[] = $this->io->ask('Enter Jira ticket Id', null, new JiraTicketValidator);
                 $continue = $this->io->confirm('One more?', false);
             }
         }
 
-        return $result;
+        return ['summaryOfCriticalIssues' => $data];
     }
 }

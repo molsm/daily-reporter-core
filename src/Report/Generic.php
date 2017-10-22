@@ -15,9 +15,9 @@ class Generic extends AbstractReport
 
     protected $sections = [
 //        SummaryOfCriticalIssues::class,
-//        ListOfTodayDoneTickets::class,
+        ListOfTodayDoneTickets::class,
 //        ExceededEstimates::class,
 //        PendingTasks::class,
-        InputFromPmClientRequired::class
+//        InputFromPmClientRequired::class
     ];
 }

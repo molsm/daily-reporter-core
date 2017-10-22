@@ -3,7 +3,7 @@
 namespace DailyReporter\Core;
 
 use DailyReporter\Api\Core\ReportInterface;
-use DailyReporter\Api\Core\SectionInterface;
+use DailyReporter\Api\Sections\SectionInterface;
 use DailyReporter\Exception\ReportCanNotBeFinished;
 use DailyReporter\Exception\ReportIsNoValid;
 use Psr\Container\ContainerInterface;
@@ -49,7 +49,7 @@ abstract class AbstractReport implements ReportInterface
         foreach ($this->sections as $section) {
             $section = $this->container->get($section);
             $this->container->get('io')->section($section->getSectionName());
-            $this->data[] = $section->process();
+            $this->data = array_merge($this->data, $section->process());
         }
 
         return $this;
