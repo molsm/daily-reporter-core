@@ -29,7 +29,7 @@ class Mailer implements MailerInterface
 
         try {
             // TODO: Implement verbosity level
-            if (true) {
+            if (false) {
                 $mail->SMTPDebug = 2;
             }
 

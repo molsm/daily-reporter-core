@@ -13,8 +13,6 @@ class Generic extends AbstractReport
 {
     protected $template = 'generic.html.twig';
 
-    protected $subject = 'Worklog report';
-
     protected $sections = [
         SummaryOfCriticalIssues::class,
         ListOfTodayDoneTickets::class,
@@ -22,4 +20,12 @@ class Generic extends AbstractReport
         PendingTasks::class,
         InputFromPmClientRequired::class
     ];
+
+    /**
+     * @return string
+     */
+    public function getSubject(): string
+    {
+        return sprintf('Worklog report (%s)', date('d/m/Y', strtotime(getenv('REPORT_DATE_FROM'))));
+    }
 }
