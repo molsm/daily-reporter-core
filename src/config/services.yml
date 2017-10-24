@@ -16,4 +16,4 @@ services:
 
     App\:
         public: true
-        resource: '../../app/*'
+        resource: '../../../../../app/*'

@@ -42,13 +42,13 @@ class Application
         $loader->load('services.yml');
         $this->container->compile();
 
-        $template = new Twig_Environment(new Twig_Loader_Filesystem(__DIR__.'/../resources/views'));
+        $template = new Twig_Environment(new Twig_Loader_Filesystem(__DIR__.'/../../../../resources/views'));
         $this->container->set('template', $template);
 
         $dotenv = new Dotenv();
-        $dotenv->load(__DIR__.'/../.env');
+        $dotenv->load(__DIR__.'/../../../../.env');
 
-        $config = new Config(__DIR__.'/../config.yml');
+        $config = new Config(__DIR__.'/../../../../config.yml');
         $this->container->set(ConfigInterface::class, $config);
     }
 
