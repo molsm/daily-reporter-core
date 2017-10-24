@@ -13,7 +13,7 @@ interface ClientInterface
      * @param string $ticketIdOrKey
      * @return array
      */
-    public function getTicket(string $ticketIdOrKey): array;
+    public function getTicket(string $ticketIdOrKey);
 
     /**
      * @param string $username

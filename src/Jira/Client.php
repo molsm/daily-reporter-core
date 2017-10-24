@@ -23,8 +23,9 @@ class Client implements ClientInterface
     /**
      * @param string $ticketId
      * @return Result|false
+     * @throws CanNotRetrieveDataFromJira
      */
-    public function getTicket(string $ticketId): array
+    public function getTicket(string $ticketId)
     {
         $result = $this->connection->getIssue($ticketId)->getResult();
 
