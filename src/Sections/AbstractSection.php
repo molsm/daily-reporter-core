@@ -74,4 +74,9 @@ abstract class AbstractSection implements SectionInterface
         );
         call_user_func($after, $result);
     }
+
+    protected function showResult()
+    {
+
+    }
 }
