@@ -9,12 +9,26 @@ use DailyReporter\Exception\ReportCanNotBeBuilded;
 
 abstract class AbstractSection implements SectionInterface
 {
+    const CHOISE_REMOVE_RECORD = 'Remove record';
+    const CHOISE_ADD_RECORD = 'Add record';
+    const CHOISE_CONTINUE = 'Continue';
+
     /**
      * @var SymfonyStyle
      */
     protected $io;
 
+    /**
+     * Defined section name will be shown in console output
+     * @var string
+     */
     protected $sectionName;
+
+    /**
+     * Section data
+     * @var array
+     */
+    protected $data = [];
 
     /**
      * AbstractSection constructor.
@@ -45,5 +59,19 @@ abstract class AbstractSection implements SectionInterface
         }
 
         return $this->sectionName;
+    }
+
+    /**
+     * @param callable $after
+     * @return void
+     */
+    protected function triggerDataManipulationChoose(callable $after)
+    {
+        $result = $this->io->choice(
+            'Choose and option',
+            [static::CHOISE_REMOVE_RECORD,static::CHOISE_ADD_RECORD, static::CHOISE_CONTINUE],
+            static::CHOISE_CONTINUE
+        );
+        call_user_func($after, $result);
     }
 }
