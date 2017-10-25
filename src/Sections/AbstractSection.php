@@ -3,6 +3,7 @@
 namespace DailyReporter\Sections;
 
 use DailyReporter\Api\Sections\SectionInterface;
+use DailyReporter\Jira\Client;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use DailyReporter\Exception\ReportCanNotBeBuilded;
@@ -30,13 +31,21 @@ abstract class AbstractSection implements SectionInterface
      */
     protected $data = [];
 
+
+    /**
+     * @var Client
+     */
+    protected $client;
+
     /**
      * AbstractSection constructor.
      * @param ContainerInterface $container
+     * @param Client $client
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, Client $client)
     {
         $this->io = $container->get('io');
+        $this->client = $client;
     }
 
     /**
@@ -62,10 +71,10 @@ abstract class AbstractSection implements SectionInterface
     }
 
     /**
-     * @param callable $after
+     * @param array $after
      * @return void
      */
-    protected function triggerDataManipulationChoose(callable $after)
+    protected function triggerDataManipulationChoose(array $after)
     {
         $result = $this->io->choice(
             'Choose and option',
