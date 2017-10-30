@@ -1,7 +1,6 @@
 {
     "name": "molsm/daily-reporter-core",
     "description": "Jira Tempo worklog parser and mail sender - core package",
-    "type": "project",
     "license": "MIT",
     "authors": [
         {
