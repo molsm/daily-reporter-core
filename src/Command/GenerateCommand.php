@@ -4,6 +4,7 @@ namespace DailyReporter\Command;
 
 use App\Report\GenericTwo;
 use DailyReporter\Api\ConfigInterface;
+use DailyReporter\Api\Core\ReportInterface;
 use DailyReporter\Mailer;
 use DailyReporter\Report\Generic;
 use Symfony\Component\Console\Command\Command;
@@ -60,17 +61,23 @@ class GenerateCommand extends Command
 
         $reportCode = $input->getArgument('report');
         $reports = $this->config->getReports();
+
         if (!isset($reports[$reportCode])) {
             throw new RuntimeException('Report with this code does not exists');
         }
 
-        $report = $this->container->get($reports[$reportCode])->build();
+        $report = $this->container->get($reports[$reportCode]);
+        if (!($report instanceof ReportInterface)) {
+            throw new RuntimeException('Report must implement ReportInterface');
+        }
+
+        $buildedReport = $report->build();
 
         $symfonyStyle->section('Finish');
         if (!$symfonyStyle->confirm(sprintf('Report is builded. Send report to %s', getenv('MAIL_TO')), true)) {
             throw new RuntimeException('Mail send aborted');
         }
 
-        $this->mailer->send($report);
+        $this->mailer->send($buildedReport);
     }
 }
