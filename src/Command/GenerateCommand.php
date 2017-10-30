@@ -44,7 +44,7 @@ class GenerateCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('generate')->setDescription('Generate report')
+        $this->setName('generate:today')->setDescription('Generate report')
             ->addArgument('report', InputArgument::REQUIRED, 'Report code');
     }
 
@@ -61,7 +61,7 @@ class GenerateCommand extends Command
         $reportCode = $input->getArgument('report');
         $reports = $this->config->getReports();
         if (!isset($reports[$reportCode])) {
-            throw new RuntimeException('Report with this code not exists');
+            throw new RuntimeException('Report with this code does not exists');
         }
 
         $report = $this->container->get($reports[$reportCode])->build();
