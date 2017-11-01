@@ -13,4 +13,9 @@ interface SectionInterface
      * @return array
      */
     public function process(): array;
+
+    /**
+     * @return array
+     */
+    public function getData(): array;
 }

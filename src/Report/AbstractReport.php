@@ -61,7 +61,7 @@ abstract class AbstractReport implements ReportInterface
         /** @var SectionInterface $section */
         foreach ($this->sections as $section) {
             $section = $this->container->get($section);
-            $this->container->get('io')->section($section->getSectionName());
+            $this->displaySectionName($section->getSectionName());
             $this->data = array_merge($this->data, $section->process());
         }
 
@@ -90,5 +90,14 @@ abstract class AbstractReport implements ReportInterface
     public function getSubject(): string
     {
         return $this->subject;
+    }
+
+    /**
+     * @param $sectionName
+     * @return void
+     */
+    protected function displaySectionName($sectionName)
+    {
+        $this->container->get('io')->section($sectionName);
     }
 }

@@ -71,6 +71,14 @@ abstract class AbstractSection implements SectionInterface
     }
 
     /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    /**
      * @param array $after
      * @return void
      */
@@ -78,7 +86,7 @@ abstract class AbstractSection implements SectionInterface
     {
         $result = $this->io->choice(
             'Choose and option',
-            [static::CHOISE_REMOVE_RECORD,static::CHOISE_ADD_RECORD, static::CHOISE_CONTINUE],
+            [static::CHOISE_REMOVE_RECORD, static::CHOISE_ADD_RECORD, static::CHOISE_CONTINUE],
             static::CHOISE_CONTINUE
         );
         call_user_func($after, $result);
